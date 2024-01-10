@@ -1,9 +1,7 @@
-import redisClient from '../clients/redisClient';
-import { sendToClients, PledgeUpdateMessage } from '../services/sseService'
-// Connect when your application starts
-redisClient.connect();
+import redisSubscriber from '../clients/redisClient';
+import { sendToClients, PledgeUpdateMessage } from '../services/sseService';
 
-redisClient.subscribe('pledgeUpdates', (message) => {
+redisSubscriber.subscribe('pledgeUpdates', (message) => {
   try {
     const parsedMessage = JSON.parse(message) as PledgeUpdateMessage;
     sendToClients(parsedMessage);

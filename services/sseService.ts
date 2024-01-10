@@ -21,10 +21,17 @@ export const setupSSE = (app: express.Application) => {
       clients.delete(res);
     });
   });
+
+  // Send a keep-alive message every 30 seconds
+  setInterval(() => {
+    clients.forEach(client => {
+      client.write(':keep-alive\n\n');
+    });
+  }, 30000); // 30 seconds
 };
 
 export const sendToClients = (data: PledgeUpdateMessage) => {
   console.log("sending to clients", data);
-  const formattedData = `data: ${JSON.stringify(data)}\n\n`; // Correctly format data for SSE
-  clients.forEach(client => client.write(formattedData)); // Send the formatted string to clients
+  const formattedData = `data: ${JSON.stringify(data)}\n\n`;
+  clients.forEach(client => client.write(formattedData));
 };
