@@ -9,6 +9,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
+app.options('/api/globe-initialize', cors());
 app.options('/api', cors());
 app.options('/events', cors());
 app.use(express.json());
